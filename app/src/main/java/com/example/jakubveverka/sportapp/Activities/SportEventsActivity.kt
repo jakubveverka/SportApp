@@ -1,9 +1,7 @@
 package com.example.jakubveverka.sportapp.Activities
 
+import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.view.View
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
@@ -13,8 +11,24 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import com.example.jakubveverka.sportapp.R
+import com.google.firebase.auth.FirebaseAuth
+import com.firebase.ui.auth.IdpResponse
+import android.content.Intent
+
 
 class SportEventsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private var mAuth: FirebaseAuth? = null
+
+    companion object {
+        fun createIntent(context: Context, idpResponse: IdpResponse? = null): Intent {
+            val intent: Intent
+            if(idpResponse != null) intent = IdpResponse.getIntent(idpResponse)
+            else intent = Intent()
+            intent.setClass(context, SportEventsActivity::class.java)
+            return intent
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +44,16 @@ class SportEventsActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+
+        mAuth = FirebaseAuth.getInstance()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = mAuth?.currentUser
+        //updateUI(currentUser)
+
     }
 
     override fun onBackPressed() {
@@ -65,18 +89,10 @@ class SportEventsActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         // Handle navigation view item clicks here.
         val id = item.itemId
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_sign_out) {
+            mAuth?.signOut()
+            startActivity(LauncherActivity.createIntent(this))
+            finish()
         }
 
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
