@@ -10,6 +10,7 @@ import java.util.*
 
 /**
  * Created by jakubveverka on 13.06.17.
+ * DialogFragment for picking Date
  */
 class DatePickerFragmentDialog : DialogFragment(), DatePickerDialog.OnDateSetListener {
 

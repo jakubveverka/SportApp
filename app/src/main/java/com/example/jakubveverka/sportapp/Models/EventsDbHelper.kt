@@ -10,6 +10,7 @@ import android.content.ContentValues
 
 /**
  * Created by jakubveverka on 12.06.17.
+ * Classic Db helper for Event table
  */
 class EventsDbHelper private constructor(context: Context) : SQLiteOpenHelper(context, EventsDbHelper.DATABASE_NAME, null, EventsDbHelper.DATABASE_VERSION) {
 

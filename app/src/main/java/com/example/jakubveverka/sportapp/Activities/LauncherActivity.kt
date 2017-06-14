@@ -36,7 +36,9 @@ class LauncherActivity : AppCompatActivity() {
         setContentView(R.layout.activity_launcher)
         mAuth = FirebaseAuth.getInstance()
 
+        /** check if user is sign in */
         if (mAuth?.currentUser != null) {
+            /** if user is sign in start activity for logged user */
             startActivity(SportEventsActivity.createIntent(this))
             finish()
             return
@@ -44,6 +46,10 @@ class LauncherActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Method for handling click on Sign In button
+     * If button is clicked start Firebase auth UI activity where user can sign in
+     */
     fun signInClicked(view: View) {
         startActivityForResult(
                 AuthUI.getInstance()
@@ -55,6 +61,9 @@ class LauncherActivity : AppCompatActivity() {
                 RC_SIGN_IN)
     }
 
+    /**
+     * Method for processing Auth result from Firebase AuthUI activity.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
         // RC_SIGN_IN is the request code you passed into startActivityForResult(...) when starting the sign in flow.
@@ -63,10 +72,12 @@ class LauncherActivity : AppCompatActivity() {
 
             // Successfully signed in
             if (resultCode == ResultCodes.OK) {
+                /** sign in OK -> start SportEventsActivity */
                 startActivity(SportEventsActivity.createIntent(this, response!!))
                 finish()
                 return
             } else {
+                /** some error, show error in snack bar */
                 // Sign in failed
                 if (response == null) {
                     // User pressed back button

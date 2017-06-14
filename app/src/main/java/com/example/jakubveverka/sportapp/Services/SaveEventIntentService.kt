@@ -11,6 +11,7 @@ import com.example.jakubveverka.sportapp.Utils.Constants
 
 /**
  * Created by jakubveverka on 14.06.17.
+ * Intent service for saving event to database or firebase
  */
 class SaveEventIntentService: IntentService("SaveEventIntentService") {
 

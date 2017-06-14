@@ -26,18 +26,15 @@ import android.support.v4.content.LocalBroadcastManager
 class CreateEventFragment : Fragment() {
 
     companion object {
-        fun newInstance(): CreateEventFragment {
-            val fragment = CreateEventFragment()
-            return fragment
-        }
         const val CREATING_EVENT_FINISHED_BROADCAST_ACTION = "com.example.jakubveverka.sportapp.CREATING_EVENT_FINISHED_BROADCAST_ACTION"
         const val CREATING_EVENT_STATUS = "com.example.jakubveverka.sportapp.CREATING_EVENT_STATUS"
     }
 
-    protected val mViewModel: CreateEventViewModel by lazy {
+    private val mViewModel: CreateEventViewModel by lazy {
         CreateEventViewModel(activity.applicationContext)
     }
 
+    /** receiver for handling status from callback from service used for saving event to db or firebase */
     private val mEventCreatedReceiver: EventCreatedReceiver by lazy {
         EventCreatedReceiver()
     }
@@ -67,6 +64,7 @@ class CreateEventFragment : Fragment() {
         mBinding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_create_event, container, false)
         val view = mBinding!!.root
+        /** bind view model */
         mBinding!!.viewModel = mViewModel
 
         val pickStartDateButton = view.findViewById(R.id.btn_pick_start_date)
@@ -83,6 +81,11 @@ class CreateEventFragment : Fragment() {
         }
 
         return view
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
     }
 
     override fun onResume() {
@@ -115,6 +118,7 @@ class CreateEventFragment : Fragment() {
             val status = intent.getIntExtra(CREATING_EVENT_STATUS, Constants.NOT_FOUND)
             if(status == Constants.NOT_FOUND) return
             if(!mViewModel.handleCreatingEventFinishedStatus(status)) {
+                /** if view model did not handle this status -> let activity (callback) handle it */
                 mCallback?.eventCreated()
             }
         }

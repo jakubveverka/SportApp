@@ -33,17 +33,15 @@ class CreateEventViewModel(val context: Context) {
 
     var settingStartDate = true
 
+    /** properties for data binding */
     val startDateTimeString: ObservableField<String> = ObservableField()
     val endDateTimeString: ObservableField<String> = ObservableField()
-
     val name: ObservableField<String> = ObservableField()
     val place: ObservableField<String> = ObservableField()
-
     val selectedStoragePosition: ObservableInt = ObservableInt()
-
     val createEventError: ObservableField<String> = ObservableField()
-
     val storageOptionsSpinnerEntries: Array<String> by lazy {
+        /** get String representation of EventStorage enum */
         Array(Event.EventStorage.values().size) {
             context.getString(Event.EventStorage.values()[it].getStringId())
         }
@@ -72,6 +70,7 @@ class CreateEventViewModel(val context: Context) {
         fillStartDateTimeString()
     }
 
+    /** fill this string after getting date informations for layout via data binding */
     private fun fillStartDateTimeString() {
         startDateTimeString.set("$startHour:$startMinute $startDay.$startMonth.$startYear")
     }
@@ -88,6 +87,7 @@ class CreateEventViewModel(val context: Context) {
         fillEndDateTimeString()
     }
 
+    /** fill this string after getting date informations for layout via data binding */
     private fun fillEndDateTimeString() {
         endDateTimeString.set("$endHour:$endMinute $endDay.$endMonth.$endYear")
     }
@@ -102,6 +102,7 @@ class CreateEventViewModel(val context: Context) {
         newFragment.show(activity.supportFragmentManager, "timePicker")
     }
 
+    /** Handle create event action (after Create event button click) */
     fun createEvent(view: View) {
         if(name.get() == null ||
                 place.get() == null ||
@@ -122,6 +123,8 @@ class CreateEventViewModel(val context: Context) {
         }
 
         val userUid = FirebaseAuth.getInstance().currentUser!!.uid
+
+        /** create event and start service which handles saving event to db or firebase */
         val event = Event(name.get(),
                 place.get(),
                 startDate.timeInMillis,
@@ -135,6 +138,8 @@ class CreateEventViewModel(val context: Context) {
     }
 
     /**
+     * Sets error observable field if error occured.
+     * Returns true if handled status code, false otherwise
      */
     fun  handleCreatingEventFinishedStatus(status: Int): Boolean {
         if(status != Constants.STATE_SUCCESS) {

@@ -24,12 +24,17 @@ import com.example.jakubveverka.sportapp.Utils.SnackbarUtils
 import com.example.jakubveverka.sportapp.Utils.bindView
 import com.example.jakubveverka.sportapp.ViewModels.SportEventsActivityViewModel
 
+/**
+ * Activity for logged users.
+ * Shows 2 fragments,first fragment with events list, second fragments is for creating new event
+ */
 class SportEventsActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener,
         TimePickerFragmentDialog.OnTimeSelectedListener,
         DatePickerFragmentDialog.OnDateSelectedListener,
         CreateEventFragment.CreateEventFragmentListener {
 
+    /** bind view using Kotter knife */
     private val mCoorLayout: View by bindView(R.id.cl_sport_events)
 
     private val mViewModel: SportEventsActivityViewModel by lazy {
@@ -65,7 +70,7 @@ class SportEventsActivity : AppCompatActivity(),
         val twUsersEmail = header.findViewById(R.id.tw_nav_header_users_email) as TextView
         twUsersEmail.text = String.format(getString(R.string.logged_in_as), FirebaseAuth.getInstance().currentUser!!.email)
 
-        mViewModel.showEventsFragment()
+        mViewModel.restoreAndShowFragments()
     }
 
     override fun onBackPressed() {

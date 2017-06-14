@@ -14,6 +14,7 @@ import android.support.v4.app.DialogFragment
 
 /**
  * Created by jakubveverka on 13.06.17.
+ * Fragment dialog for picking Time
  */
 class TimePickerFragmentDialog : DialogFragment(), TimePickerDialog.OnTimeSetListener {
 

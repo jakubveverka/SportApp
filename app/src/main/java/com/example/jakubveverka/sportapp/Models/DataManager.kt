@@ -5,8 +5,13 @@ import com.google.firebase.database.FirebaseDatabase
 
 /**
  * Created by jakubveverka on 14.06.17.
+ * Class for data managment (Firebase and local SQL db)
  */
 class DataManager(val context: Context) {
+
+    /**
+     * Method decides where to save event and saves it
+     */
     fun saveEvent(event: Event): Boolean {
         when (event.storage) {
             Event.EventStorage.LOCAL -> return saveEventToDb(event)
