@@ -3,6 +3,10 @@ package com.example.jakubveverka.sportapp.Models
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.google.firebase.auth.FirebaseAuth
+import android.content.ContentValues
+
+
 
 /**
  * Created by jakubveverka on 12.06.17.
@@ -36,5 +40,16 @@ class EventsDbHelper private constructor(context: Context) : SQLiteOpenHelper(co
         onUpgrade(db, oldVersion, newVersion)
     }
 
+    fun saveEvent(event: Event): Boolean {
+        val db = this.writableDatabase
 
+        val values = ContentValues()
+        values.put(Event.COLUMN_NAME, event.name)
+        values.put(Event.COLUMN_PLACE, event.place)
+        values.put(Event.COLUMN_START_TIME, event.startTime)
+        values.put(Event.COLUMN_END_TIME, event.endTime)
+        values.put(Event.COLUMN_USER_UID, event.userUid)
+
+        return db.insert(Event.TABLE_NAME, null, values) != -1L
+    }
 }

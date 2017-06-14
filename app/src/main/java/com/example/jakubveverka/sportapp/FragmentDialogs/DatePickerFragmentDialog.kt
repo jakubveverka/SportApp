@@ -31,7 +31,6 @@ class DatePickerFragmentDialog : DialogFragment(), DatePickerDialog.OnDateSetLis
         mCallback = null
     }
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current date as the default date in the picker
         val c = Calendar.getInstance()
@@ -46,7 +45,6 @@ class DatePickerFragmentDialog : DialogFragment(), DatePickerDialog.OnDateSetLis
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
         mCallback?.onDateSelected(year, month, day)
     }
-
 
     // Container Activity must implement this interface
     interface OnDateSelectedListener {

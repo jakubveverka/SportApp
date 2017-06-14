@@ -3,8 +3,6 @@ package com.example.jakubveverka.sportapp.ViewModels
 
 import android.support.v4.app.FragmentActivity
 import com.example.jakubveverka.sportapp.Activities.LauncherActivity
-import com.example.jakubveverka.sportapp.FragmentDialogs.DatePickerFragmentDialog
-import com.example.jakubveverka.sportapp.FragmentDialogs.TimePickerFragmentDialog
 import com.example.jakubveverka.sportapp.Fragments.CreateEventFragment
 import com.example.jakubveverka.sportapp.Fragments.EventsFragment
 import com.example.jakubveverka.sportapp.R
@@ -54,6 +52,12 @@ class SportEventsActivityViewModel(val mActivity: FragmentActivity) {
 
     fun onTimeSelected(hour: Int, minute: Int) {
         mCreateEventFragment.setTime(hour, minute)
+    }
+
+    fun onEventCreated() {
+        mActivity.supportFragmentManager.popBackStackImmediate()
+        mIsCreateEventFragmentVisible = false
+        mEventsFragment.reloadEvents()
     }
 
 }

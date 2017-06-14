@@ -20,16 +20,17 @@ import com.example.jakubveverka.sportapp.FragmentDialogs.DatePickerFragmentDialo
 import com.example.jakubveverka.sportapp.FragmentDialogs.TimePickerFragmentDialog
 import com.example.jakubveverka.sportapp.Fragments.CreateEventFragment
 import com.example.jakubveverka.sportapp.Fragments.EventsFragment
+import com.example.jakubveverka.sportapp.Utils.SnackbarUtils
 import com.example.jakubveverka.sportapp.Utils.bindView
 import com.example.jakubveverka.sportapp.ViewModels.SportEventsActivityViewModel
-
-
-
 
 class SportEventsActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener,
         TimePickerFragmentDialog.OnTimeSelectedListener,
-        DatePickerFragmentDialog.OnDateSelectedListener {
+        DatePickerFragmentDialog.OnDateSelectedListener,
+        CreateEventFragment.CreateEventFragmentListener {
+
+    private val mCoorLayout: View by bindView(R.id.cl_sport_events)
 
     private val mViewModel: SportEventsActivityViewModel by lazy {
         SportEventsActivityViewModel(this)
@@ -108,5 +109,10 @@ class SportEventsActivity : AppCompatActivity(),
 
     override fun onTimeSelected(hour: Int, minute: Int) {
         mViewModel.onTimeSelected(hour, minute)
+    }
+
+    override fun eventCreated() {
+        mViewModel.onEventCreated()
+        SnackbarUtils.showSnackbar(mCoorLayout, R.string.event_created)
     }
 }

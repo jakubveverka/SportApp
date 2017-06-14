@@ -1,28 +1,72 @@
 package com.example.jakubveverka.sportapp.Models
 
-import android.provider.BaseColumns
+import android.os.Parcel
+import android.os.Parcelable
+import com.example.jakubveverka.sportapp.R
 
 /**
  * Created by jakubveverka on 12.06.17.
  */
-enum class EventStorage { LOCAL, FIREBASE }
+class Event(var name: String, var place: String, var startTime: Long, var endTime: Long, var storage: EventStorage, var userUid: String): Parcelable {
 
-class Event(name: String, place: String, startTime: String, endTime: String, storage: EventStorage) {
+    enum class EventStorage {
+        LOCAL,
+        FIREBASE;
+
+        fun getStringId(): Int {
+            if(this == LOCAL) return R.string.sql_database
+            else if(this == FIREBASE) return R.string.firebase_database
+            else throw Exception("Not supported EventStorage")
+        }
+    }
+
     companion object {
-        val TABLE_NAME = "event"
-        val COLUMN_ID = "_id"
-        val COLUMN_NAME = "name"
-        val COLUMN_PLACE = "place"
-        val COLUMN_START_TIME = "start_time"
-        val COLUMN_END_TIME = "end_time"
+        const val TABLE_NAME = "event"
+        const val COLUMN_ID = "_id"
+        const val COLUMN_NAME = "name"
+        const val COLUMN_PLACE = "place"
+        const val COLUMN_START_TIME = "start_time"
+        const val COLUMN_END_TIME = "end_time"
+        const val COLUMN_USER_UID = "user_uid"
 
-        val SQL_CREATE_EVENTS = "CREATE TABLE " + TABLE_NAME + " (" +
+        const val SQL_CREATE_EVENTS = "CREATE TABLE " + TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY," +
                 COLUMN_NAME + " TEXT," +
                 COLUMN_PLACE + " TEXT," +
-                COLUMN_START_TIME + " TEXT," +
-                COLUMN_END_TIME + " TEXT)"
+                COLUMN_START_TIME + " INTEGER," +
+                COLUMN_END_TIME + " INTEGER, " +
+                COLUMN_USER_UID + " TEXT)"
 
-        val SQL_DELETE_EVENTS = "DROP TABLE IF EXISTS " + TABLE_NAME
+        const val SQL_DELETE_EVENTS = "DROP TABLE IF EXISTS " + TABLE_NAME
+
+        @JvmField final val CREATOR: Parcelable.Creator<Event> = object : Parcelable.Creator<Event> {
+            override fun createFromParcel(`in`: Parcel): Event {
+                val name = `in`.readString()
+                val place = `in`.readString()
+                val startTime = `in`.readLong()
+                val endTime = `in`.readLong()
+                val storage = EventStorage.valueOf(`in`.readString())
+                val userUid = `in`.readString()
+                return Event(name, place, startTime, endTime, storage, userUid)
+            }
+
+            override fun newArray(size: Int): Array<Event?> {
+                return arrayOfNulls(size)
+            }
+        }
     }
+
+    override fun writeToParcel(dest: Parcel?, flags: Int) {
+        dest?.writeString(name)
+        dest?.writeString(place)
+        dest?.writeLong(startTime)
+        dest?.writeLong(endTime)
+        dest?.writeString(storage.name)
+        dest?.writeString(userUid)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
 }

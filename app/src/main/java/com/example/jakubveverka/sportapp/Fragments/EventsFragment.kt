@@ -101,4 +101,7 @@ class EventsFragment : Fragment() {
             return fragment
         }
     }
+
+    fun reloadEvents() {
+    }
 }

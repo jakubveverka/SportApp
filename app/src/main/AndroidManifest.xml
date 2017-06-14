@@ -21,6 +21,10 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <service
+            android:name=".Services.SaveEventIntentService"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

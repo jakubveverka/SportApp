@@ -28,4 +28,7 @@
     <string name="firebase_database">Firebase</string>
     <string name="all_fields_are_required_error">All fields are required</string>
     <string name="btn_create_event">Create event</string>
+    <string name="start_date_has_to_be_lower_than_end_date">Start date has to be lower than an end date</string>
+    <string name="failed_to_create_an_event">Failed to create an event</string>
+    <string name="event_created">Event was created</string>
 </resources>
