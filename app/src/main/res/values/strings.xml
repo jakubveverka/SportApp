@@ -9,13 +9,23 @@
     <string name="sign_in_cancelled">Sign in cancelled</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="unknown_error">Sign in went wrong</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_out">Sign out</string>
     <string name="events_list">Events</string>
     <string name="create_new_event">Create new event</string>
     <string name="version">Version 1.0.0</string>
     <string name="created_by">Created by Jakub Veverka</string>
+    <string name="tw_name">Name</string>
+    <string name="tw_title">Title:</string>
+    <string name="et_title_hint">Enter title</string>
+    <string name="tw_address">Place:</string>
+    <string name="et_place_hint">Enter address</string>
+    <string name="btn_start_date">Pick start date</string>
+    <string name="btn_end_date">Pick end date</string>
+    <string name="tw_select_storage">Select storage:</string>
+    <string name="logged_in_as">Logged in as %1$s</string>
+    <string name="sql_database">SQL</string>
+    <string name="firebase_database">Firebase</string>
+    <string name="all_fields_are_required_error">All fields are required</string>
+    <string name="btn_create_event">Create event</string>
 </resources>

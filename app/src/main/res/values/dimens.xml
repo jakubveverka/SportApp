@@ -8,4 +8,12 @@
     <dimen name="button_padding">10dp</dimen>
     <dimen name="textview_padding">10dp</dimen>
     <dimen name="error_text_size">15sp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="app_padding">20dp</dimen>
+    <dimen name="tw_padding">5dp</dimen>
+    <dimen name="et_padding">5dp</dimen>
+    <dimen name="margin_between_elements">10dp</dimen>
+    <dimen name="margin_between_et_and_tw">5dp</dimen>
+    <dimen name="btn_padding">5dp</dimen>
+    <dimen name="spinner_padding">5dp</dimen>
 </resources>

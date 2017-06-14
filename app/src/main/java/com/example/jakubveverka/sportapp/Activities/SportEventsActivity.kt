@@ -14,11 +14,26 @@ import com.example.jakubveverka.sportapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.firebase.ui.auth.IdpResponse
 import android.content.Intent
+import android.view.View
+import android.widget.TextView
+import com.example.jakubveverka.sportapp.FragmentDialogs.DatePickerFragmentDialog
+import com.example.jakubveverka.sportapp.FragmentDialogs.TimePickerFragmentDialog
+import com.example.jakubveverka.sportapp.Fragments.CreateEventFragment
+import com.example.jakubveverka.sportapp.Fragments.EventsFragment
+import com.example.jakubveverka.sportapp.Utils.bindView
+import com.example.jakubveverka.sportapp.ViewModels.SportEventsActivityViewModel
 
 
-class SportEventsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private var mAuth: FirebaseAuth? = null
+
+class SportEventsActivity : AppCompatActivity(),
+        NavigationView.OnNavigationItemSelectedListener,
+        TimePickerFragmentDialog.OnTimeSelectedListener,
+        DatePickerFragmentDialog.OnDateSelectedListener {
+
+    private val mViewModel: SportEventsActivityViewModel by lazy {
+        SportEventsActivityViewModel(this)
+    }
 
     companion object {
         fun createIntent(context: Context, idpResponse: IdpResponse? = null): Intent {
@@ -45,15 +60,11 @@ class SportEventsActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
 
-        mAuth = FirebaseAuth.getInstance()
+        val header = navigationView.getHeaderView(0)
+        val twUsersEmail = header.findViewById(R.id.tw_nav_header_users_email) as TextView
+        twUsersEmail.text = String.format(getString(R.string.logged_in_as), FirebaseAuth.getInstance().currentUser!!.email)
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val currentUser = mAuth?.currentUser
-        //updateUI(currentUser)
-
+        mViewModel.showEventsFragment()
     }
 
     override fun onBackPressed() {
@@ -77,11 +88,6 @@ class SportEventsActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         // as you specify a parent activity in AndroidManifest.xml.
         val id = item.itemId
 
-
-        if (id == R.id.action_create) {
-            return true
-        }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -89,14 +95,18 @@ class SportEventsActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         // Handle navigation view item clicks here.
         val id = item.itemId
 
-        if (id == R.id.nav_sign_out) {
-            mAuth?.signOut()
-            startActivity(LauncherActivity.createIntent(this))
-            finish()
-        }
+        mViewModel.processNavigationItemSelected(id)
 
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onDateSelected(year: Int, month: Int, day: Int) {
+        mViewModel.onDateSelected(year, month, day)
+    }
+
+    override fun onTimeSelected(hour: Int, minute: Int) {
+        mViewModel.onTimeSelected(hour, minute)
     }
 }

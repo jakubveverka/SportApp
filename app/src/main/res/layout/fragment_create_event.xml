@@ -1,0 +1,113 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="viewModel" type="com.example.jakubveverka.sportapp.ViewModels.CreateEventViewModel"/>
+        <import type="android.view.View"/>
+    </data>
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.jakubveverka.sportapp.Fragments.CreateEventFragment"
+        android:padding="@dimen/app_padding"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tw_title"
+            android:textStyle="bold"
+            android:padding="@dimen/tw_padding"
+            android:layout_marginTop="@dimen/margin_between_elements"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/et_title_hint"
+            android:padding="@dimen/et_padding"
+            android:layout_marginTop="@dimen/margin_between_et_and_tw"
+            android:text="@={viewModel.name}"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tw_address"
+            android:textStyle="bold"
+            android:padding="@dimen/tw_padding"
+            android:layout_marginTop="@dimen/margin_between_elements"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/et_place_hint"
+            android:padding="@dimen/et_padding"
+            android:layout_marginTop="@dimen/margin_between_et_and_tw"
+            android:text="@={viewModel.place}"/>
+
+        <Button
+            android:id="@+id/btn_pick_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_start_date"
+            android:layout_marginTop="@dimen/margin_between_elements"
+            android:padding="@dimen/btn_padding"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/tw_padding"
+            android:layout_marginTop="@dimen/margin_between_et_and_tw"
+            android:visibility="@{viewModel.startDateTimeString != null ? View.VISIBLE : View.GONE}"
+            android:text="@{viewModel.startDateTimeString}"/>
+
+        <Button
+            android:id="@+id/btn_pick_end_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_end_date"
+            android:layout_marginTop="@dimen/margin_between_elements"
+            android:padding="@dimen/btn_padding"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/tw_padding"
+            android:layout_marginTop="@dimen/margin_between_et_and_tw"
+            android:visibility="@{viewModel.endDateTimeString != null ? View.VISIBLE : View.GONE}"
+            android:text="@{viewModel.endDateTimeString}"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tw_select_storage"
+            android:textStyle="bold"
+            android:padding="@dimen/tw_padding"
+            android:layout_marginTop="@dimen/margin_between_elements" />
+        <Spinner
+            android:id="@+id/planets_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spinner_padding"
+            android:layout_marginTop="@dimen/margin_between_et_and_tw"
+            android:entries="@array/storage_options"
+            android:selectedItemPosition="@={viewModel.selectedStoragePosition}"/>
+
+        <Button
+            android:text="@string/btn_create_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_between_elements"
+            android:onClick="@{viewModel::createEvent}"
+            android:background="@android:color/holo_green_dark"
+            android:padding="@dimen/btn_padding"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.createEventError}"
+            android:visibility="@{viewModel.createEventError != null ? View.VISIBLE : View.GONE}"
+            android:textStyle="bold"
+            android:textColor="@android:color/holo_red_dark"
+            android:padding="@dimen/tw_padding"
+            android:layout_marginTop="@dimen/margin_between_et_and_tw" />
+
+    </LinearLayout>
+</layout>
