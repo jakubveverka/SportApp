@@ -16,6 +16,8 @@ Long text (event title or place) in cardView (fragment_events_list_item)
 
 Docs
 
+Pagination
+
 Caching Firebase data
 
 Detail and update of existing event
