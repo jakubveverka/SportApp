@@ -12,4 +12,5 @@ TODO:
 Tests
 Long text (event title or place) in cardView (fragment_events_list_item)
 Caching Firebase data
+Detail and update of existing event
 Firebase storage for event images
