@@ -21,6 +21,7 @@ import com.example.jakubveverka.sportapp.FragmentDialogs.TimePickerFragmentDialo
 import com.example.jakubveverka.sportapp.Fragments.CreateEventFragment
 import com.example.jakubveverka.sportapp.Fragments.EventsFragment
 import com.example.jakubveverka.sportapp.Utils.SnackbarUtils
+import com.example.jakubveverka.sportapp.Utils.UsersManager
 import com.example.jakubveverka.sportapp.Utils.bindView
 import com.example.jakubveverka.sportapp.ViewModels.SportEventsActivityViewModel
 
@@ -42,10 +43,8 @@ class SportEventsActivity : AppCompatActivity(),
     }
 
     companion object {
-        fun createIntent(context: Context, idpResponse: IdpResponse? = null): Intent {
-            val intent: Intent
-            if(idpResponse != null) intent = IdpResponse.getIntent(idpResponse)
-            else intent = Intent()
+        fun createIntent(context: Context): Intent {
+            val intent = Intent()
             intent.setClass(context, SportEventsActivity::class.java)
             return intent
         }
@@ -68,7 +67,7 @@ class SportEventsActivity : AppCompatActivity(),
 
         val header = navigationView.getHeaderView(0)
         val twUsersEmail = header.findViewById(R.id.tw_nav_header_users_email) as TextView
-        twUsersEmail.text = String.format(getString(R.string.logged_in_as), FirebaseAuth.getInstance().currentUser!!.email)
+        twUsersEmail.text = mViewModel.getLoggedInText()
 
         mViewModel.restoreAndShowFragments()
     }

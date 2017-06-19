@@ -3,10 +3,9 @@ package com.example.jakubveverka.sportapp.Models
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.google.firebase.auth.FirebaseAuth
 import android.content.ContentValues
-
-
+import com.example.jakubveverka.sportapp.Entities.Event
+import java.util.*
 
 /**
  * Created by jakubveverka on 12.06.17.
@@ -52,5 +51,39 @@ class EventsDbHelper private constructor(context: Context) : SQLiteOpenHelper(co
         values.put(Event.COLUMN_USER_UID, event.userUid)
 
         return db.insert(Event.TABLE_NAME, null, values) != -1L
+    }
+
+    fun getAllEventsOfUserWithUid(userUid: String): LinkedList<Event> {
+        val db = this.readableDatabase
+
+        val selection = Event.COLUMN_USER_UID + " = ?"
+        val selectionArgs = arrayOf(userUid)
+
+        val sortOrder = Event.COLUMN_START_TIME + " ASC"
+
+        val cursor = db.query(
+                Event.TABLE_NAME, // The table to query
+                null, // The columns to return
+                selection, // The columns for the WHERE clause
+                selectionArgs, // don't group the rows
+                null, null, // don't filter by row groups
+                sortOrder // The sort order
+        )// The values for the WHERE clause
+
+        val events = LinkedList<Event>()
+        val nameColumnIndex = cursor.getColumnIndexOrThrow(Event.COLUMN_NAME)
+        val placeColumnIndex = cursor.getColumnIndexOrThrow(Event.COLUMN_PLACE)
+        val startDateColumnIndex = cursor.getColumnIndexOrThrow(Event.COLUMN_START_TIME)
+        val endDateColumnIndex = cursor.getColumnIndexOrThrow(Event.COLUMN_END_TIME)
+        while (cursor.moveToNext()) {
+            val name = cursor.getString(nameColumnIndex)
+            val place = cursor.getString(placeColumnIndex)
+            val startDate = cursor.getLong(startDateColumnIndex)
+            val endDate = cursor.getLong(endDateColumnIndex)
+            events.add(Event(name, place, startDate, endDate, Event.EventStorage.LOCAL, userUid))
+        }
+        cursor.close()
+
+        return events
     }
 }

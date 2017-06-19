@@ -10,4 +10,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.example.jakubveverka.sportapp.Fragments.EventsFragment"
-    tools:listitem="@layout/fragment_events" />
+    tools:listitem="@layout/fragment_events_list_item" />

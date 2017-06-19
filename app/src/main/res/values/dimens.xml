@@ -16,4 +16,7 @@
     <dimen name="margin_between_et_and_tw">5dp</dimen>
     <dimen name="btn_padding">5dp</dimen>
     <dimen name="spinner_padding">5dp</dimen>
+    <dimen name="margin_between_card_view_items">15dp</dimen>
+    <dimen name="events_list_item_padding">5dp</dimen>
+    <dimen name="table_layout_padding">5dp</dimen>
 </resources>

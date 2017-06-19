@@ -1,13 +1,19 @@
-package com.example.jakubveverka.sportapp.Models
+package com.example.jakubveverka.sportapp.Entities
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.example.jakubveverka.sportapp.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.Exclude
 
 /**
  * Created by jakubveverka on 12.06.17.
  */
-class Event(var name: String, var place: String, var startTime: Long, var endTime: Long, var storage: EventStorage, var userUid: String): Parcelable {
+class Event(var name: String = "", var place: String = "", var startTime: Long = 0, var endTime: Long = 0, @Exclude var storage: EventStorage = Event.EventStorage.FIREBASE, @Exclude var userUid: String? = null): Parcelable {
+
+    @Exclude var firebaseKey : String? = null
+
+    constructor(name: String, place: String, startTime: Long, endTime: Long) : this(name, place, startTime, endTime, EventStorage.FIREBASE, FirebaseAuth.getInstance().currentUser!!.uid)
 
     enum class EventStorage {
         LOCAL,

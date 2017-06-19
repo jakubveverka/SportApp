@@ -12,7 +12,6 @@ import android.view.ViewGroup
 
 import com.example.jakubveverka.sportapp.R
 import android.databinding.DataBindingUtil
-import com.example.jakubveverka.sportapp.FragmentDialogs.DatePickerFragmentDialog
 import com.example.jakubveverka.sportapp.Utils.Constants
 import com.example.jakubveverka.sportapp.ViewModels.CreateEventViewModel
 import com.example.jakubveverka.sportapp.databinding.FragmentCreateEventBinding
@@ -99,12 +98,12 @@ class CreateEventFragment : Fragment() {
         LocalBroadcastManager.getInstance(activity).unregisterReceiver(mEventCreatedReceiver)
     }
 
-    fun  setDate(year: Int, month: Int, day: Int) {
+    fun setDate(year: Int, month: Int, day: Int) {
         mViewModel.setDate(year, month, day)
         mViewModel.showTimePickerFragmentDialog(activity)
     }
 
-    fun  setTime(hour: Int, minute: Int) {
+    fun setTime(hour: Int, minute: Int) {
         mViewModel.setTime(hour, minute)
     }
 
@@ -119,6 +118,7 @@ class CreateEventFragment : Fragment() {
             if(status == Constants.NOT_FOUND) return
             if(!mViewModel.handleCreatingEventFinishedStatus(status)) {
                 /** if view model did not handle this status -> let activity (callback) handle it */
+                mViewModel.clearInputs()
                 mCallback?.eventCreated()
             }
         }

@@ -1,12 +1,11 @@
 package com.example.jakubveverka.sportapp.ViewModels
 
-
 import android.support.v4.app.FragmentActivity
 import com.example.jakubveverka.sportapp.Activities.LauncherActivity
 import com.example.jakubveverka.sportapp.Fragments.CreateEventFragment
 import com.example.jakubveverka.sportapp.Fragments.EventsFragment
 import com.example.jakubveverka.sportapp.R
-import com.google.firebase.auth.FirebaseAuth
+import com.example.jakubveverka.sportapp.Utils.UsersManager
 
 /**
  * Created by jakubveverka on 13.06.17.
@@ -25,7 +24,7 @@ class SportEventsActivityViewModel(val mActivity: FragmentActivity) {
      */
     fun processNavigationItemSelected(id: Int) {
         if (id == R.id.nav_sign_out) {
-            FirebaseAuth.getInstance().signOut()
+            UsersManager.signOutUser(mActivity.applicationContext)
             mActivity.startActivity(LauncherActivity.createIntent(mActivity))
             mActivity.finish()
         } else if(id == R.id.nav_create_event && !mCreateEventFragment!!.isVisible) {
@@ -70,7 +69,10 @@ class SportEventsActivityViewModel(val mActivity: FragmentActivity) {
      */
     fun onEventCreated() {
         mActivity.supportFragmentManager.popBackStackImmediate()
-        mEventsFragment?.reloadEvents()
+    }
+
+    fun  getLoggedInText(): String {
+        return String.format(mActivity.getString(R.string.logged_in_as), UsersManager.getUsersLoggedInName())
     }
 
 }

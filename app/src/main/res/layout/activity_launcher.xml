@@ -5,9 +5,9 @@
     android:id="@+id/ll_activity_launcher_container"
     android:gravity="center">
     <Button
+        android:id="@+id/btn_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/button_padding"
-        android:text="@string/sign_in"
-        android:onClick="signInClicked"/>
+        android:text="@string/sign_in"/>
 </LinearLayout>

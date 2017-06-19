@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.example.jakubveverka.sportapp.FragmentDialogs.DatePickerFragmentDialog
 import com.example.jakubveverka.sportapp.FragmentDialogs.TimePickerFragmentDialog
-import com.example.jakubveverka.sportapp.Models.Event
+import com.example.jakubveverka.sportapp.Entities.Event
 import com.example.jakubveverka.sportapp.R
 import com.example.jakubveverka.sportapp.Services.SaveEventIntentService
 import com.example.jakubveverka.sportapp.Utils.Constants
@@ -72,7 +72,7 @@ class CreateEventViewModel(val context: Context) {
 
     /** fill this string after getting date informations for layout via data binding */
     private fun fillStartDateTimeString() {
-        startDateTimeString.set("$startHour:$startMinute $startDay.$startMonth.$startYear")
+        startDateTimeString.set("$startHour:$startMinute $startDay.${startMonth+1}.$startYear")
     }
 
     fun setEndDate(year: Int, month: Int, day: Int) {
@@ -89,7 +89,7 @@ class CreateEventViewModel(val context: Context) {
 
     /** fill this string after getting date informations for layout via data binding */
     private fun fillEndDateTimeString() {
-        endDateTimeString.set("$endHour:$endMinute $endDay.$endMonth.$endYear")
+        endDateTimeString.set("$endHour:$endMinute $endDay.${endMonth+1}.$endYear")
     }
 
     fun showDatePickerFragmentDialog(activity: FragmentActivity) {
@@ -112,10 +112,10 @@ class CreateEventViewModel(val context: Context) {
             return
         }
         val startDate = Calendar.getInstance()
-        startDate.set(startYear, startMonth - 1, startDay, startHour, startMinute)
+        startDate.set(startYear, startMonth, startDay, startHour, startMinute)
 
         val endDate = Calendar.getInstance()
-        endDate.set(endYear, endMonth - 1, endDay, endHour, endMinute)
+        endDate.set(endYear, endMonth, endDay, endHour, endMinute)
 
         if(endDate.timeInMillis < startDate.timeInMillis) {
             createEventError.set(context.getString(R.string.start_date_has_to_be_lower_than_end_date))
@@ -147,6 +147,14 @@ class CreateEventViewModel(val context: Context) {
             return true
         }
         return false
+    }
+
+    fun clearInputs() {
+        startDateTimeString.set(null)
+        endDateTimeString.set(null)
+        name.set(null)
+        place.set(null)
+        createEventError.set(null)
     }
 
 }

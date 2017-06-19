@@ -33,7 +33,6 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_launcher)
         mAuth = FirebaseAuth.getInstance()
 
         /** check if user is sign in */
@@ -43,22 +42,20 @@ class LauncherActivity : AppCompatActivity() {
             finish()
             return
         }
-    }
+        setContentView(R.layout.activity_launcher)
 
+        val btnSignIn = findViewById(R.id.btn_sign_in)
 
-    /**
-     * Method for handling click on Sign In button
-     * If button is clicked start Firebase auth UI activity where user can sign in
-     */
-    fun signInClicked(view: View) {
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setProviders(Arrays.asList(AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
-                                AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-                                AuthUI.IdpConfig.Builder(AuthUI.TWITTER_PROVIDER).build()))
-                        .build(),
-                RC_SIGN_IN)
+        btnSignIn.setOnClickListener {
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(Arrays.asList(AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                    AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
+                                    AuthUI.IdpConfig.Builder(AuthUI.TWITTER_PROVIDER).build()))
+                            .build(),
+                    RC_SIGN_IN)
+        }
     }
 
     /**
@@ -73,7 +70,7 @@ class LauncherActivity : AppCompatActivity() {
             // Successfully signed in
             if (resultCode == ResultCodes.OK) {
                 /** sign in OK -> start SportEventsActivity */
-                startActivity(SportEventsActivity.createIntent(this, response!!))
+                startActivity(SportEventsActivity.createIntent(this))
                 finish()
                 return
             } else {
